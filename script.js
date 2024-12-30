@@ -1,37 +1,30 @@
-// Selecciona el formulario
-const form = document.getElementById('dataForm');
-const responseMessage = document.getElementById('responseMessage');
+document.getElementById('captureForm').addEventListener('submit', async function (event) {
+    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada
 
-// Escucha el evento de envío del formulario
-form.addEventListener('submit', async (event) => {
-    event.preventDefault();
+    // Capturar los datos del formulario
+    const nom_prosi = document.getElementById('nom_prosi').value;
+    const tel1_prosi = document.getElementById('tel1_prosi').value;
+    const contactoi = document.getElementById('contactoi').value;
 
-    // Obtén los valores de los campos
-    const name = document.getElementById('nom_prosi').value;
-    const phone = document.getElementById('tel1_prosi').value;
-    const contact = document.getElementById('contactoi').value;
-
-    // Crea el objeto con los datos
-    const data = { name, phone, contact };
+    // Preparar los datos para enviarlos a la API
+    const data = { nom_prosi, tel1_prosi, contactoi };
 
     try {
-        // Realiza la solicitud a la API
-        const response = await fetch('https://mty.alphaerponline.mx/AlphaErpApi/api/empresas/13/Prospectos', {
+        const response = await fetch('https://mty.alphaerponline.mx/AlphaErpApi/api/empresas/13/Prospectos', { // Cambia esta URL por la de tu API
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Api-key': 'SK_9vFRro6xU10G_GfZ1p4N!F8WuiZzyBYJYz51R7pa6WS', // Reemplaza con tu Api-key
+                'User-key': 'chtest01' // Reemplaza con tu User-key
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify(data)
         });
 
-        // Procesa la respuesta
-        if (response.ok) {
-            const result = await response.json();
-            responseMessage.innerHTML = `<div class="alert alert-success">Datos enviados con éxito: ${JSON.stringify(result)}</div>`;
-        } else {
-            responseMessage.innerHTML = `<div class="alert alert-danger">Error al enviar los datos: ${response.status}</div>`;
-        }
+        // Manejar la respuesta de la API
+        const result = await response.json();
+        document.getElementById('response').innerText = `Respuesta: ${result.message}`;
     } catch (error) {
-        responseMessage.innerHTML = `<div class="alert alert-danger">Error de conexión: ${error.message}</div>`;
+        console.error('Error al enviar datos:', error);
+        document.getElementById('response').innerText = 'Error al enviar los datos.';
     }
 });
