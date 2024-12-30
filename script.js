@@ -7,9 +7,9 @@ form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     // Obtén los valores de los campos
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
-    const contact = document.getElementById('contact').value;
+    const name = document.getElementById('nom_prosi').value;
+    const phone = document.getElementById('tel1_prosi').value;
+    const contact = document.getElementById('contactoi').value;
 
     // Crea el objeto con los datos
     const data = { name, phone, contact };
